@@ -42,11 +42,13 @@ char **get_tokens(char *input)
  */
 void execute_commands(char **arguments)
 {
+	char *path = NULL;
 	char *command = NULL;
 
 	if (arguments)
 	{
-		command = arguments[0];
+		path = arguments[0];
+		command = handle_path(path);
 
 		/*executes command using execve function*/
 		if (execve(command, arguments, NULL) == -1)
