@@ -9,11 +9,10 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 
-char **get_tokens(char *input);/* generates tokens from user input by splitting the string */
-void execute_commands(char **argv);/* function executes shell commands passed through */
-void create_childProcess(char **arguments);/* ensures the prompt loop doesnot break */
-char *handle_path(char *command);/* getts the location of command */
-
+void execute_commands(char **arguments); /* executes command passed to it */
+void create_childProcess(char **arguments); /* ensures after execution of command the loop continues to infinity */
+char **get_tokens(char *input, ssize_t bytes_read, char **arguments); /* splits the string into arguments */
+char *handle_path(char *command); /* gets location of a particular command */
 
 
 

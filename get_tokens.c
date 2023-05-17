@@ -1,38 +1,50 @@
 #include "main.h"
 /**
- *get_tokens - splits the string into tokens
+ *get_tokens - string to be used during tokenization
  *@input:  string to be split
+ *@bytes_read: no of bytes read using getline()
+ *@arguments: string to be split to tokens
  *Return: tokens
  */
-char **get_tokens(char *input)
+char **get_tokens(char *input, ssize_t bytes_read, char **arguments)
 {
 	char *token;
-	char **argv = NULL;
-	const char *delim = " \n";
-	int i, count_token = 0;
+	char *input_dup = NULL;
+	const char *delimeter = " \n";
+	int i = 0, count_token = 0;
+
+	input_dup = malloc(sizeof(char) * bytes_read);
+	if (input_dup == NULL)
+		exit(EXIT_FAILURE);
+	strcpy(input_dup, input);
 
 	/*get no of tokens*/
-	token = strtok(input, delim);
+	token = strtok(input_dup, delimeter);
 	for (; token != NULL;)
 	{
 		count_token++;
-		token = strtok(NULL, delim);
+		token = strtok(NULL, delimeter);
 	}
 
 	/* allocate space for all tokens*/
-	argv = malloc(sizeof(char *) * (count_token + 1));
+	arguments = malloc(sizeof(char *) * (count_token + 1));
+	if (arguments == NULL)
+		exit(EXIT_FAILURE);
 
 	/*store evry token in argv array*/
-	token = strtok(input, delim);
-	for (i = 0; token != NULL; i++)
+	token = strtok(input, delimeter);
+	while (token != NULL)
 	{
-		argv[i] = malloc(sizeof(char) * (strlen(token) + 1));
-		strcpy(argv[i], token);
-		token = strtok(NULL, delim);
+		arguments[i] = malloc(sizeof(char) * (strlen(token) + 1));
+		if (arguments[i] == NULL)
+			exit(EXIT_FAILURE);
+		strcpy(arguments[i], token);
+		token = strtok(NULL, delimeter);
+		i++;
 	}
-	argv[count_token] = NULL;
-
-	return (argv);
+	arguments[i] = NULL;
+	free(input_dup);
+	return (arguments);
 }
 
 /**
@@ -52,7 +64,10 @@ void execute_commands(char **arguments)
 
 		/*executes command using execve function*/
 		if (execve(command, arguments, NULL) == -1)
+		{
 			perror("./shell");
+			exit(EXIT_FAILURE);
+		}
 
 	}
 }
