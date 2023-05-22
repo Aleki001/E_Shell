@@ -16,7 +16,7 @@ char **get_tokens(char *input, ssize_t bytes_read, char **arguments)
 	input_dup = malloc(sizeof(char) * bytes_read);
 	if (input_dup == NULL)
 		exit(EXIT_FAILURE);
-	strcpy(input_dup, input);
+	_strcpy(input_dup, input);
 
 	/*get no of tokens*/
 	token = strtok(input_dup, delimeter);
@@ -35,10 +35,10 @@ char **get_tokens(char *input, ssize_t bytes_read, char **arguments)
 	token = strtok(input, delimeter);
 	while (token != NULL)
 	{
-		arguments[i] = malloc(sizeof(char) * (strlen(token) + 1));
+		arguments[i] = malloc(sizeof(char) * (_strlen(token) + 1));
 		if (arguments[i] == NULL)
 			exit(EXIT_FAILURE);
-		strcpy(arguments[i], token);
+		_strcpy(arguments[i], token);
 		token = strtok(NULL, delimeter);
 		i++;
 	}
