@@ -15,22 +15,22 @@ char *handle_path(char *command)
 	if (path == NULL)
 		return (NULL);
 
-	cmd_size = strlen(command);
+	cmd_size = _strlen(command);
 
 	directory = strtok(path, ":");
-	dir_size = strlen(directory);
+	dir_size = _strlen(directory);
 
 	while (directory != NULL)
 	{
 		file_path = malloc(dir_size + cmd_size + 2);
-		strcpy(file_path, directory);
-		strcat(file_path, "/");
-		strcat(file_path, command);
+		_strcpy(file_path, directory);
+		_strcat(file_path, "/");
+		_strcat(file_path, command);
 
 		if (stat(file_path, &buf) == 0)
 		{
-			path_found = malloc(strlen(file_path) + 1);
-			strcpy(path_found, file_path);
+			path_found = malloc(_strlen(file_path) + 1);
+			_strcpy(path_found, file_path);
 			free(file_path);
 			return (path_found);
 		}
@@ -39,8 +39,8 @@ char *handle_path(char *command)
 	}
 	if (stat(command, &buf) == 0)
 	{
-		path_found = malloc(strlen(command) + 1);
-		strcpy(path_found, command);
+		path_found = malloc(_strlen(command) + 1);
+		_strcpy(path_found, command);
 		return (path_found);
 	}
 	return (NULL);
