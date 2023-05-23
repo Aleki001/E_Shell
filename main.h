@@ -9,6 +9,8 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 
+extern char **environ;
+
 /* basic custom library function prototypes */
 char *_strcpy(char *dest, char *src);
 int _strlen(char *s);
@@ -26,6 +28,13 @@ char *handle_path(char *command);
 void builtin_exit(char **arr);
 int _atoi(char *s);
 void freed(char **arr);
+
+/* Environment */
+void env(char **arr __attribute__ ((unused)));
+
+/* Environment help */
+int _putchar(char c);
+void _puts(char *str);
 
 
 #endif
