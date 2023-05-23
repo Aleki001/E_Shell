@@ -28,6 +28,8 @@ int env_builtin(char **arguments)
 {
 	int i;
 
+	(void)arguments;
+
 	for (i = 0; environ[i]; i++)
 	{
 		write(STDOUT_FILENO, environ[i], _strlen(environ[i]));
@@ -44,10 +46,12 @@ int env_builtin(char **arguments)
  */
 int help_builtin(char **arguments)
 {
-	char *info = "\n\t\t\tWelcome to the help page.\n";
+	char *info = "\n\n\t\t\tWelcome to the help page.\n";
+
+	(void)arguments;
 
 	write(STDOUT_FILENO, info, _strlen(info));
-	info = "The following are the builtin commands in this shell.\n";
+	info = "\nThe following are the builtin commands in this shell.\n";
 	write(STDOUT_FILENO, info, _strlen(info));
 	info = "\n\t\t cd \t env \t help \t exit \n";
 	write(STDOUT_FILENO, info, _strlen(info));
@@ -55,7 +59,7 @@ int help_builtin(char **arguments)
 	write(STDOUT_FILENO, info, _strlen(info));
 	info = "\t2. TO exit shell use the 'exit' command.\n";
 	write(STDOUT_FILENO, info, _strlen(info));
-	info = "\t3. For help type 'help' command.\n";
+	info = "\t3. For help type 'help' command.\n\n";
 	write(STDOUT_FILENO, info, _strlen(info));
 
 	return (1);
@@ -68,6 +72,7 @@ int help_builtin(char **arguments)
  */
 int cd_builtin(char **arguments)
 {
+	(void)arguments;
 	printf("This is cd");
 	return (1);
 }

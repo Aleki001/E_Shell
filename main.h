@@ -21,12 +21,10 @@ int _strcmp(const char *s1, const char *s2);
 char **get_tokens(char *input, ssize_t bytes_read, char **arguments);
 char *handle_path(char *command);
 
-
-
 /**
- *struct builtins - builtin commands
+ *struct builtins - stores builtin command and its function
  *@name: name of builtin command
- *@function: points  to the function associated to each builtin command
+ *@function: buitlin function
  */
 typedef struct builtins
 {
@@ -34,7 +32,7 @@ typedef struct builtins
 	int (*function)(char **arguments);
 } builtin_command;
 
-/* Function prototypes for builtin commands */
+/* Function prototypes for built-in commands */
 int exit_builtin(char **arguments);
 int cd_builtin(char **arguments);
 int help_builtin(char **arguments);
@@ -47,6 +45,19 @@ void builtin_exit(char **arr);
 int _atoi(char *s);
 void freed(char **arr);
 
+/**
+ * struct mybuiltin - Pointer for buildin function
+ * @arguments: Command
+ * @functions: Execute command
+ */
+typedef struct mybuiltin
+{
+	char *arguments;
+	void (*functions)(char **);
+} mybuiltin;
+
+void(*_builtin(char **arr))(char **arr);
+
 /* Environment */
 void env(char **arr __attribute__ ((unused)));
 void _setenv(char **arr);
@@ -57,6 +68,7 @@ int _putchar(char c);
 void _puts(char *str);
 char *_gets(const char *var);
 char *_concats(char *first, char *second, char *third);
+
 
 #endif
 

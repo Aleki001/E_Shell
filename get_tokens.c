@@ -48,4 +48,3 @@ char **get_tokens(char *input, ssize_t bytes_read, char **arguments)
 	free(input_dup);
 	return (arguments);
 }
-

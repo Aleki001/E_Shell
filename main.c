@@ -26,27 +26,26 @@ int main(int ac, char **argv)
 		arguments = get_tokens(input, bytes_read, arguments); /*getting the tokens*/
 
 		execute_commands(arguments);
-
 	}
 	free(input);
 
 	return (0);
 }
 
+
 /**
- *launch - creates a child process to execute commands
- *@arguments: commands to be executed
- *Return: 1
- */
+ * launch - creates a child process to execute the command
+ * @arguments: commands to be executed
+ * Return: 1
+*/
 int launch(char **arguments)
 {
-	pid_t pid, p_pid;
+	pid_t pid;
 	int state;
 	char *path = NULL;
 	char *command = NULL;
 
 	pid = fork();
-
 	if (pid == 0)
 	{
 		if (arguments)
@@ -54,9 +53,10 @@ int launch(char **arguments)
 			path = arguments[0];
 			command = handle_path(path);
 
+			/*executes command using execve function*/
 			if (execve(command, arguments, NULL) == -1)
 			{
-				perror("./shell");
+				perror("Error");
 				exit(EXIT_FAILURE);
 			}
 		}
@@ -67,8 +67,9 @@ int launch(char **arguments)
 	}
 	else
 	{
-		p_pid = waitpid(pid, &state, 0);
+		return (waitpid(pid, &state, 0));
 	}
 
 	return (1);
 }
+
