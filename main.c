@@ -25,7 +25,7 @@ int main(int ac, char **argv)
 
 		arguments = get_tokens(input, bytes_read, arguments); /*getting the tokens*/
 
-		create_childProcess(arguments);
+		execute_commands(arguments);
 
 	}
 	free(input);
@@ -34,29 +34,41 @@ int main(int ac, char **argv)
 }
 
 /**
- *create_childProcess - creates a child process
+ *launch - creates a child process to execute commands
  *@arguments: commands to be executed
- *Return: void
+ *Return: 1
  */
-void create_childProcess(char **arguments)
+int launch(char **arguments)
 {
 	pid_t pid, p_pid;
 	int state;
+	char *path = NULL;
+	char *command = NULL;
 
 	pid = fork();
 
 	if (pid == 0)
 	{
-		execute_commands(arguments);
-		exit(0);
-	}
-	else if (pid > 0)
-	{
-		p_pid = waitpid(pid, &state, 0);
-		if (p_pid == -1)
+		if (arguments)
 		{
-			perror("Folk Error");
-			return;
+			path = arguments[0];
+			command = handle_path(path);
+
+			if (execve(command, arguments, NULL) == -1)
+			{
+				perror("./shell");
+				exit(EXIT_FAILURE);
+			}
 		}
 	}
+	else if (pid < 0)
+	{
+		perror("Folk Error");
+	}
+	else
+	{
+		p_pid = waitpid(pid, &state, 0);
+	}
+
+	return (1);
 }

@@ -47,27 +47,3 @@ char **get_tokens(char *input, ssize_t bytes_read, char **arguments)
 	return (arguments);
 }
 
-/**
- *execute_commands - function executes the commands
- *@arguments: tokens
- *Return: void
- */
-void execute_commands(char **arguments)
-{
-	char *path = NULL;
-	char *command = NULL;
-
-	if (arguments)
-	{
-		path = arguments[0];
-		command = handle_path(path);
-
-		/*executes command using execve function*/
-		if (execve(command, arguments, NULL) == -1)
-		{
-			perror("./shell");
-			exit(EXIT_FAILURE);
-		}
-
-	}
-}
