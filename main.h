@@ -15,31 +15,17 @@ extern char **environ;
 char *_strcpy(char *dest, char *src);
 int _strlen(char *s);
 char *_strcat(char *dest, char *src);
-int _strcmp(char *s1, char *s2);
 
-/* handling path and tokenization prototypes */
+/* main process prototypes */
+void execute_commands(char **arguments);
+void create_childProcess(char **arguments);
 char **get_tokens(char *input, ssize_t bytes_read, char **arguments);
 char *handle_path(char *command);
 
-
-
-/**
- *struct builtins - builtin commands
- *@name: name of builtin command
- *@function: points  to the function associated to each builtin command
- */
-typedef struct builtins
-{
-	const char *name;
-	int (*function)(char **arguments);
-} builtin_command;
-
-/* Function prototypes for builtin commands */
-int exit_builtin(char **arguments);
-int cd_builtin(char **arguments);
-int help_builtin(char **arguments);
-int execute_commands(char **arguments);
-int launch(char **arguments);
+/* Exits shell */
+void builtin_exit(char **arr);
+int _atoi(char *s);
+void freed(char **arr);
 
 /* Exits shell */
 void builtin_exit(char **arr);
