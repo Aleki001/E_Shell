@@ -35,6 +35,8 @@ char **get_tokens(char *input, ssize_t bytes_read, char **arguments)
 	token = strtok(input, delimeter);
 	while (token != NULL)
 	{
+		if (token[0] == '#')
+			break;
 		arguments[i] = malloc(sizeof(char) * (_strlen(token) + 1));
 		if (arguments[i] == NULL)
 			exit(EXIT_FAILURE);
