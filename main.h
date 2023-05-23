@@ -9,12 +9,13 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 
+extern char **environ;
+
 /* basic custom library function prototypes */
 char *_strcpy(char *dest, char *src);
 int _strlen(char *s);
 char *_strcat(char *dest, char *src);
 int _strcmp(char *s1, char *s2);
-
 
 /* handling path and tokenization prototypes */
 char **get_tokens(char *input, ssize_t bytes_read, char **arguments);
@@ -40,5 +41,20 @@ int help_builtin(char **arguments);
 int execute_commands(char **arguments);
 int launch(char **arguments);
 
+/* Exits shell */
+void builtin_exit(char **arr);
+int _atoi(char *s);
+void freed(char **arr);
+
+/* Environment */
+void env(char **arr __attribute__ ((unused)));
+void _setenv(char **arr);
+void _unsetenv(char **arr);
+
+/* Environment help */
+int _putchar(char c);
+void _puts(char *str);
+char *_gets(const char *var);
+char *_concats(char *first, char *second, char *third);
 
 #endif
