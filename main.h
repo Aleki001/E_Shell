@@ -27,10 +27,19 @@ void builtin_exit(char **arr);
 int _atoi(char *s);
 void freed(char **arr);
 
-/* Exits shell */
-void builtin_exit(char **arr);
-int _atoi(char *s);
-void freed(char **arr);
+/**
+ * struct mybuiltin - Pointer for buildin function
+ * @arguments: Command
+ * @functions: Execute command
+ */
+
+typedef struct mybuiltin
+{
+	char *arguments;
+	void (*functions)(char **);
+} mybuiltin;
+
+void(*_builtin(char **arr))(char **arr);
 
 /* Environment */
 void env(char **arr __attribute__ ((unused)));
@@ -42,5 +51,6 @@ int _putchar(char c);
 void _puts(char *str);
 char *_gets(const char *var);
 char *_concats(char *first, char *second, char *third);
+
 
 #endif
