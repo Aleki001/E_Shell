@@ -16,13 +16,11 @@ char *_strcpy(char *dest, char *src);
 int _strlen(char *s);
 char *_strcat(char *dest, char *src);
 
-
 /* main process prototypes */
 void execute_commands(char **arguments);
 void create_childProcess(char **arguments);
 char **get_tokens(char *input, ssize_t bytes_read, char **arguments);
 char *handle_path(char *command);
-
 
 /* Exits shell */
 void builtin_exit(char **arr);
@@ -32,6 +30,7 @@ void freed(char **arr);
 /* Environment */
 void env(char **arr __attribute__ ((unused)));
 void _setenv(char **arr);
+void _unsetenv(char **arr);
 
 /* Environment help */
 int _putchar(char c);
