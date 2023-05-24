@@ -30,12 +30,12 @@ void _puts(char *str)
 }
 
 /**
- * _gets - Gets value of variable
+ * _getenv - Gets value of variable
  * @var: Name of var
  * Return: string
  */
 
-char *_gets(const char *var)
+char *_getenv(const char *var)
 {
 	int i;
 	int j;

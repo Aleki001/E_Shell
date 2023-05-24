@@ -10,7 +10,7 @@ int exit_builtin(char **arguments)
 
 	if (arguments[1])
 	{
-		status = atoi(arguments[1]);
+		status = _atoi(arguments[1]);
 		exit(status);
 	}
 	else

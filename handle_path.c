@@ -10,7 +10,7 @@ char *handle_path(char *command)
 	int cmd_size, dir_size;
 	char *path, *directory, *path_found, *file_path;
 
-	path = getenv("PATH");
+	path = _getenv("PATH");
 
 	if (path == NULL)
 		return (NULL);

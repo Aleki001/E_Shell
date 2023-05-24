@@ -10,7 +10,6 @@ void(*_builtin(char **arr))(char **arr)
 {
 
 	mybuiltin A[] = {
-		{"exit", builtin_exit},
 		{"env", env},
 		{"setenv", _setenv},
 		{"unsetenv", _unsetenv},

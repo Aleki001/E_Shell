@@ -29,7 +29,7 @@ void _setenv(char **arr)
 
 	if (!arr[1] || !arr[2])
 	{
-		perror(_gets("_"));
+		perror("error");
 		return;
 	}
 
@@ -77,7 +77,7 @@ void _unsetenv(char **arr)
 
 	if (!arr[1])
 	{
-		perror(_gets("_"));
+		perror("error");
 		return;
 	}
 	for (i = 0; environ[i]; i++)
