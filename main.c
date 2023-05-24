@@ -11,13 +11,16 @@ int main(int ac, char **argv)
 	ssize_t bytes_read;
 	char **arguments;
 	char *input;
+	char *prompt;
 
 	(void)ac;
+	input = NULL;
+	prompt = ">>> ";
 	arguments = argv;
 
 	while (1) /* prompt loop*/
 	{
-		printf("%s", ">>> ");
+		write(STDOUT_FILENO, prompt, _strlen(prompt));
 		bytes_read = getline(&input, &bytes, stdin);/* gets input from user */
 
 		if (bytes_read == -1)/* checks if reached EOF or CTRL + D is pressed */

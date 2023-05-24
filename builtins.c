@@ -73,7 +73,6 @@ int help_builtin(char **arguments)
 int cd_builtin(char **arguments)
 {
 	(void)arguments;
-	printf("This is cd");
 	return (1);
 }
 
