@@ -1,4 +1,4 @@
-#include "main.h"
+#include "shell.h"
 /**
  *_strcpy - copy the string pointed to by src to dest
  *@dest: char to check
@@ -55,7 +55,8 @@ char *_strcat(char *dest, char *src)
  * _strcmp - a function that compares two strings
  * @s1: input one
  * @s2: input two
- * Return: Always 0 (Success)
+ * Return: 0 if the strings are equal, negative value if s1 is less than s2,
+ *         and positive value if s1 is greater than s2.
  */
 int _strcmp(const char *s1, const char *s2)
 {
@@ -66,8 +67,19 @@ int _strcmp(const char *s1, const char *s2)
 		if (s1[i] != s2[i])
 			return (s1[i] - s2[i]);
 	}
-	return (0);
+
+	if (s1[i] == '\0' && s2[i] != '\0')
+		return (-1); // s1 is less than s2
+
+	if (s1[i] != '\0' && s2[i] == '\0')
+		return (1); // s1 is greater than s2
+
+	return (0); /* Both strings are equal*/
 }
+
+
+
+
 
 /**
  * _atoi -  convert a string to an integer
@@ -91,3 +103,4 @@ int _atoi(char *s)
 
 	return (val * str);
 }
+

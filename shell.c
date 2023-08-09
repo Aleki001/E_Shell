@@ -1,4 +1,4 @@
-#include "main.h"
+#include "shell.h"
 /**
  *main - executes the shell process
  *@ac: argument count
@@ -7,30 +7,34 @@
  */
 int main(int ac, char **argv)
 {
-	size_t bytes;
 	ssize_t bytes_read;
 	char **arguments;
-	char *input;
-	char *prompt;
+	char *input, *prompt, *input_copy;
 
 	(void)ac;
 	input = NULL;
-	prompt = ">>> ";
+	prompt = ">>>$ ";
 	arguments = argv;
 
 	while (1) /* prompt loop*/
 	{
 		write(STDOUT_FILENO, prompt, _strlen(prompt));
-		bytes_read = getline(&input, &bytes, stdin);/* gets input from user */
+
+		bytes_read = _getline(&input);
 
 		if (bytes_read == -1)/* checks if reached EOF or CTRL + D is pressed */
 			break;
-
-		arguments = get_tokens(input, bytes_read, arguments); /*getting the tokens*/
-
-		execute_commands(arguments);
+		input_copy = _strdup(input);
+		if (input_copy == NULL)
+		{
+			perror("Memory allocation error");
+			exit(EXIT_FAILURE);
+		}
+		split_commands(input_copy, arguments);
+		free(input_copy);
 	}
 	free(input);
+
 
 	return (0);
 }
@@ -47,6 +51,7 @@ int launch(char **arguments)
 	int state;
 	char *path = NULL;
 	char *command = NULL;
+	char *error;
 
 	pid = fork();
 	if (pid == 0)
@@ -59,7 +64,9 @@ int launch(char **arguments)
 			/*executes command using execve function*/
 			if (execve(command, arguments, NULL) == -1)
 			{
-				perror("Error");
+				error = "./shell: command not found";
+				write(STDOUT_FILENO, error, _strlen(error));
+				write(STDOUT_FILENO, "\n", 1);
 				exit(EXIT_FAILURE);
 			}
 		}
@@ -75,4 +82,5 @@ int launch(char **arguments)
 
 	return (1);
 }
+
 

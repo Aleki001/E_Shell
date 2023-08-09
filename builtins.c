@@ -1,4 +1,4 @@
-#include "main.h"
+#include "shell.h"
 /**
  * exit_builtin - exit the shell when invoked
  * @arguments: commands
@@ -6,19 +6,27 @@
  */
 int exit_builtin(char **arguments)
 {
-	int status;
+	int exit_code;
+	char *error_message;
 
-	if (arguments[1])
+	if (arguments[0] != NULL && _strcmp(arguments[0], "exit") == 0)
 	{
-		status = _atoi(arguments[1]);
-		exit(status);
+		if (arguments[1] != NULL)
+		{
+			exit_code = _atoi(arguments[1]);
+			if (exit_code != 0 || arguments[1][0] == '0')
+				exit(exit_code);
+			else
+				exit(1);
+		}
+		else
+			exit(0);
 	}
-	else
-	{
-		exit(0);
-	}
+	error_message = "shell: command not found\n";
+	write(2, error_message, _strlen(error_message));
+
+	return (1);
 }
-
 /**
  * env_builtin - displays the environment
  * @arguments: commands
@@ -65,16 +73,57 @@ int help_builtin(char **arguments)
 	return (1);
 }
 
+
 /**
  * cd_builtin - changes directory when invoked
  * @arguments: commands
- * Return: 1 otherwise 0
+ * Return: 1 if successful, otherwise 0
  */
 int cd_builtin(char **arguments)
 {
-	(void)arguments;
+	char prev_dir[1024];
+	char *home_dir, *info;
+
+	if (!arguments[1] || _strcmp(arguments[1], "~") == 0)
+	{
+		home_dir = _getenv("HOME");
+		if (!home_dir)
+		{
+			write(STDERR_FILENO, "cd: No HOME directory found.\n", 29);
+			return (0);
+		}
+		arguments[1] = home_dir;
+	}
+	if (_strcmp(arguments[1], "-") == 0)
+	{
+		info = _getenv("OLDPWD");
+		if (!info)
+		{
+			write(STDERR_FILENO, "cd: OLDPWD not set.\n", 20);
+			return (0);
+		}
+		write(STDOUT_FILENO, info, _strlen(info));
+		write(STDOUT_FILENO, "\n", 1);
+		if (chdir(info) != 0 || !getcwd(prev_dir, sizeof(prev_dir)))
+		{
+			perror("chdir");
+			return (0);
+		}
+	}
+	else
+	{
+		if (!getcwd(prev_dir, sizeof(prev_dir)) || chdir(arguments[1]) != 0)
+		{
+			perror("cd");
+			return (0);
+		}
+		_setenv("OLDPWD", prev_dir, 1);
+	}
+	_setenv("PWD", arguments[1], 1);
 	return (1);
 }
+
+
 
 /**
  * execute_commands - executes commands passed through it
@@ -102,3 +151,4 @@ int execute_commands(char **arguments)
 
 	return (launch(arguments));
 }
+

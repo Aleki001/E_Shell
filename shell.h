@@ -1,5 +1,5 @@
-#ifndef MAIN_H
-#define MAIN_H
+#ifndef SHELL_H
+#define SHELL_H
 
 #include <stdio.h>
 #include <unistd.h>
@@ -10,6 +10,7 @@
 #include <sys/types.h>
 
 extern char **environ;
+#define BUFFER_SIZE 1024
 
 /* basic custom library function prototypes */
 char *_strcpy(char *dest, char *src);
@@ -52,19 +53,21 @@ typedef struct mybuiltin
 	void (*functions)(char **);
 } mybuiltin;
 
-void(*_builtin(char **arr))(char **arr);
-
-/* Environment */
-void env(char **arr __attribute__ ((unused)));
-void _setenv(char **arr);
-void _unsetenv(char **arr);
-
 /* Environment help */
 int _putchar(char c);
 void _puts(char *str);
 char *_getenv(const char *var);
 char *_concats(char *first, char *second, char *third);
 
+/* custom_library_functions */
+ssize_t _getline(char **input);
+
+void split_commands(char *input, char **arguments);
+void execute_command(char *command, char ***arguments);
+char *_strdup(char *str);
+
+int _setenv(const char *name, const char *value, int overwrite);
+// int _setenv(char *name, char *value, int overwrite);
+char *custom_strcat(char *dest, const char *src1, const char *src2);
 
 #endif
-
